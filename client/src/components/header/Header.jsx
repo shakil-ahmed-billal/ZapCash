@@ -8,9 +8,12 @@ import { Button } from "../ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
 const Header = () => {
-    const { userLogOut, user } = useAuth();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const { theme, setTheme } = useTheme();
+
+    const { userLogOut , user } = useAuth()
+
+    console.log(user);
 
     const handleLogout = () => {
         userLogOut();

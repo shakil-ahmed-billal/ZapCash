@@ -3,9 +3,16 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Input } from "@/components/ui/input"
 import { Label } from "@radix-ui/react-dropdown-menu"
 import { ArrowLeft } from "lucide-react"
+import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
 
 const Login = () => {
+
+    const { register, handleSubmit, formState: { errors }, } = useForm()
+        const onSubmit = (e) => {
+            console.log(e);
+        };
+
     return (
         <div className="w-11/12 md:w-10/12 mx-auto  min-h-screen">
             <Link to={"/"}><Button variant={"ghost"} className={"md:mt-20 mt-3"}><ArrowLeft />Back to Home</Button></Link>
@@ -17,11 +24,11 @@ const Login = () => {
                         <p className="text-center text-gray-500 text-sm">Sign in to continue</p>
                     </CardHeader>
                     <CardContent>
-                        <form className="space-y-4">
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                             <div>
-                                <Label htmlFor="email">Number</Label>
+                                <Label htmlFor="number">Number</Label>
                                 <Input
-                                    // {...register("number")}
+                                    {...register("number")}
                                     name="number"
                                     id="number"
                                     type="number"
@@ -32,7 +39,7 @@ const Login = () => {
                             <div>
                                 <Label htmlFor="pin">PIN</Label>
                                 <Input
-                                    // {...register("pin")}
+                                    {...register("pin")}
                                     name="pin"
                                     id="pin"
                                     type="password"
