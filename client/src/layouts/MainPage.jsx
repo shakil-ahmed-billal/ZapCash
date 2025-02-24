@@ -7,7 +7,7 @@ const MainPage = () => {
             <header>
                 <Header />
             </header>
-            <main>
+            <main className='dark:bg-[#111827] min-h-[calc(100vh-80px)] '>
                 <Outlet />
             </main>
             <footer>
