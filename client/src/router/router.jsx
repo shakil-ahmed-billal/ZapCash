@@ -5,6 +5,8 @@ import MainPage from "@/layouts/MainPage";
 import Dashboard from "@/pages/dashboard/Dashboard";
 import Home from "@/pages/home/Home";
 import Landing from "@/pages/Landing/Landing";
+import UserStats from "@/pages/UserStats";
+import PrivateRouter from "@/private/PrivateRouter";
 import { createBrowserRouter } from "react-router-dom";
 
 
@@ -19,7 +21,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/home",
-                element: <Home />
+                element: <PrivateRouter><Home /></PrivateRouter>
             },
 
         ]
@@ -40,7 +42,13 @@ const router = createBrowserRouter([
     },
     {
         path: "/dashboard",
-        element: <Dashboard />
+        element: <Dashboard />,
+        children: [
+            {
+                path: '/dashboard',
+                element: <UserStats />
+            }
+        ]
     }
 ])
 export default router

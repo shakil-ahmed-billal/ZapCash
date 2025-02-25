@@ -14,21 +14,26 @@ import toast from 'react-hot-toast';
 const Home = () => {
 
     const { user } = useAuth()
+
     const { data: info } = useUser({ email: user?.email })
 
     console.log(info);
+    const [open, setOpen] = useState(false);
 
 
     useEffect(() => {
         if (info?.data?.acStatus == "unverified") {
             toast.error("Please verify your account")
             setOpen(true);
-           
+
 
         }
     }, [info])
 
-    const [open, setOpen] = useState(false);
+
+    // user action dialog
+
+
 
 
     return (
@@ -65,6 +70,7 @@ const Home = () => {
                 <TransactionTable />
             </div>
             <UserVerification open={open} setOpen={setOpen} />
+
         </div>
     )
 }
