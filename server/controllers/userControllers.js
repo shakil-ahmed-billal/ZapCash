@@ -2,13 +2,11 @@ const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-
 // user register controller
 const registerUser = async (req, res) => {
   try {
     const { email, number, name, pin } = req.body;
 
- 
     if (!email || !number || !name || !pin) {
       return res.status(400).json({
         success: false,
@@ -16,7 +14,6 @@ const registerUser = async (req, res) => {
       });
     }
 
-  
     if (typeof number !== "string") {
       return res.status(400).json({
         success: false,
@@ -24,7 +21,6 @@ const registerUser = async (req, res) => {
       });
     }
 
-   
     const existingUser = await User.findOne({ number });
 
     if (existingUser) {
@@ -74,7 +70,7 @@ const registerUser = async (req, res) => {
   }
 };
 
-// login user controller 
+// login user controller
 const loginUser = async (req, res) => {
   try {
     const { number, pin } = req.body;
@@ -118,7 +114,6 @@ const loginUser = async (req, res) => {
   }
 };
 
-
 const userVerify = async (req, res) => {
   try {
     const { acType, nid, email } = req.body;
@@ -142,10 +137,17 @@ const userVerify = async (req, res) => {
     }
 
     // Update user details
-    user.acType = acType;
-    user.nid = nid;
-    user.acStatus = "verified";
-
+    if (acType === "user") {
+      user.acType = acType;
+      user.nid = nid;
+      user.acStatus = "verified";
+    }
+    if (acType === "agent") {
+      user.acType = acType;
+      user.acStatus = "pending";
+      user.nid = nid;
+      user.balance = 40;
+    }
     // Save updated user
     await user.save();
 
@@ -168,4 +170,4 @@ const userVerify = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser , userVerify};
+module.exports = { registerUser, loginUser, userVerify };

@@ -2,6 +2,7 @@ import Auth from "@/authentication/auth/Auth";
 import Login from "@/authentication/login/Login";
 import Register from "@/authentication/register/Register";
 import MainPage from "@/layouts/MainPage";
+import Dashboard from "@/pages/dashboard/Dashboard";
 import Home from "@/pages/home/Home";
 import Landing from "@/pages/Landing/Landing";
 import { createBrowserRouter } from "react-router-dom";
@@ -19,7 +20,8 @@ const router = createBrowserRouter([
             {
                 path: "/home",
                 element: <Home />
-            }
+            },
+
         ]
     },
     {
@@ -35,6 +37,10 @@ const router = createBrowserRouter([
                 element: <Register />
             }
         ]
+    },
+    {
+        path: "/dashboard",
+        element: <Dashboard />
     }
 ])
 export default router

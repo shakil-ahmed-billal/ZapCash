@@ -1,5 +1,10 @@
+import {
+    DropdownMenuLabel,
+    DropdownMenuSeparator
+} from "@/components/ui/dropdown-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import useAuth from "@/hooks/useAuth";
-import { Menu, Moon, Sun } from "lucide-react";
+import { Bell, Download, LineChart, Menu, Moon, Settings, Sun } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTheme } from "../theme-provider";
@@ -8,103 +13,105 @@ import { Button } from "../ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
 const Header = () => {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const { userLogOut, user } = useAuth();
     const { theme, setTheme } = useTheme();
-
-    const { userLogOut , user } = useAuth()
-
-    console.log(user);
 
     const handleLogout = () => {
         userLogOut();
-        setMobileMenuOpen(false);
     };
 
     return (
-        <header className="w-full bg-white dark:bg-[#111827] shadow-md transition-all duration-300">
-            <div className="flex items-center justify-between py-4 px-6 md:px-12">
-                {/* Logo */}
-                <Link to="/" className="flex items-center gap-2">
-                    <img className=" h-12" src="/logo.png" alt="Logo" />
-
-                </Link>
-
-                <div className="flex items-center gap-5">
-                    {/* Desktop Navigation */}
-                    <nav className="hidden md:flex items-center gap-6">
-                        <Link to="/home"><Button variant="ghost" className="dark:text-white">Home</Button></Link>
-                        <Link to="/tasks"><Button variant="ghost" className="dark:text-white">Tasks</Button></Link>
-                        <Link to="/contact"><Button variant="ghost" className="dark:text-white">Contact</Button></Link>
+        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="md:px-20 px-5 flex h-14 items-center justify-between">
+                {/* Logo and Desktop Navigation */}
+                <div className="flex items-center space-x-6">
+                    <Link to="/" className="flex items-center space-x-2">
+                        <LineChart className="h-6 w-6" />
+                        <span className="font-bold">Dashboard</span>
+                    </Link>
+                    <nav className="hidden md:flex space-x-4">
+                        <Link to="/home" className="hover:text-primary">Home</Link>
+                        <Link to="/dashboard" className="hover:text-primary">Dashboard</Link>
+                        <Link to="/contact" className="hover:text-primary">Contact</Link>
                     </nav>
-                    <div className="flex items-center gap-5">
-                        {/* Theme Toggle */}
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" size="icon" className="dark:border-gray-600">
-                                    <Sun className="h-5 w-5 transition-transform dark:-rotate-90 dark:scale-0" />
-                                    <Moon className="absolute h-5 w-5 transition-transform scale-0 dark:rotate-0 dark:scale-100" />
-                                    <span className="sr-only">Toggle theme</span>
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                </div>
 
-                        {/* User Profile */}
-                        <div className="hidden md:flex">
-                            {user ? (
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger>
-                                        <Avatar className="cursor-pointer">
-                                            <AvatarImage src={user.photoURL || "/default-avatar.png"} alt="User Avatar" />
-                                            <AvatarFallback>U</AvatarFallback>
-                                        </Avatar>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">
-                                        <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                            ) : (
-                                <Link to="/auth/login"><Button className="">Login</Button></Link>
-                            )}
+                {/* Mobile Navigation */}
+                <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+                    <SheetTrigger asChild>
+                        <Button variant="ghost" size="icon" className="md:hidden">
+                            <Menu className="h-6 w-6" />
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="w-[240px] sm:w-[280px]">
+                        <div className="flex flex-col space-y-4">
+                            <Link href="/" className="font-bold text-lg">Home</Link>
+                            <Link href="/dashboard" className="font-bold text-lg">Dashboard</Link>
+                            <Link href="/contact" className="font-bold text-lg">Contact</Link>
                         </div>
-                    </div>
-                    {/* Mobile Menu Button */}
-                    <button
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="md:hidden text-gray-900 dark:text-white"
-                    >
-                        <Menu size={28} />
-                    </button>
+                    </SheetContent>
+                </Sheet>
+
+                {/* Right-side actions */}
+                <div className="flex items-center space-x-2">
+                    {/* Theme Toggle */}
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" size="icon">
+                                <Sun className="h-5 w-5 transition-transform dark:-rotate-90 dark:scale-0" />
+                                <Moon className="absolute h-5 w-5 transition-transform scale-0 dark:rotate-0 dark:scale-100" />
+                                <span className="sr-only">Toggle theme</span>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
+                    {/* Notifications */}
+                    <Button variant="ghost" size="icon">
+                        <Bell className="h-4 w-4" />
+                    </Button>
+
+                    {/* User Profile Menu */}
+                    <DropdownMenu>
+                        {user ? <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                                <Avatar className="h-8 w-8">
+                                    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                                    <AvatarFallback>SC</AvatarFallback>
+                                </Avatar>
+                            </Button>
+                        </DropdownMenuTrigger> : <Link to="/auth/login"><Button>Login</Button></Link>}
+                        <DropdownMenuContent className="w-56" align="end">
+                            <DropdownMenuLabel className="font-normal">
+                                <div className="flex flex-col space-y-1">
+                                    <p className="text-sm font-medium leading-none">{user?.name || "User"}</p>
+                                    <p className="text-xs leading-none text-muted-foreground">
+                                        {user?.email || "user@example.com"}
+                                    </p>
+                                </div>
+                            </DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>
+                                <Settings className="mr-2 h-4 w-4" />
+                                <span>Settings</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Download className="mr-2 h-4 w-4" />
+                                <span>Download Data</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={handleLogout}>
+                                Log out
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
             </div>
-
-            {/* Mobile Navigation */}
-            <nav
-                className={`md:hidden bg-white dark:bg-[#111827] transition-all duration-300 shadow-md flex flex-col gap-3 p-5 absolute w-full left-0 ${mobileMenuOpen ? "top-16 opacity-100" : "-top-96 opacity-0"
-                    }`}
-            >
-                <Link to="/home" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="link" className="w-full dark:text-white">Home</Button>
-                </Link>
-                <Link to="/tasks" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="link" className="w-full dark:text-white">Tasks</Button>
-                </Link>
-                <Link to="/contact" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="link" className="w-full dark:text-white">Contact</Button>
-                </Link>
-
-                {user ? (
-                    <Button onClick={handleLogout} className="w-full">Logout</Button>
-                ) : (
-                    <Link to="/auth/login" onClick={() => setMobileMenuOpen(false)}>
-                        <Button className="w-full ">Login</Button>
-                    </Link>
-                )}
-            </nav>
         </header>
     );
 };

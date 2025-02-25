@@ -9,8 +9,8 @@ const userSchema = new mongoose.Schema(
     pin: { type: String, required: true },
     nid: { type: String, default: "" },
     balance: { type: Number, default: 0 },
-    acType: { type: String, enum: ["user", "admin"], default: "user" },
-    acStatus: { type: String, enum: ["unverified", "verified", "suspended"], default: "unverified" },
+    acType: { type: String, enum: ["user", "agent" , "admin"], default: "user" },
+    acStatus: { type: String, enum: ["unverified", "verified", "pending" ,"suspended"], default: "unverified" },
   },
   { timestamps: true }
 );
