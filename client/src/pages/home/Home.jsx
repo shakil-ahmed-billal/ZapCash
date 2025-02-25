@@ -1,71 +1,87 @@
-import { Button } from "@/components/ui/button"
-import { Wallet } from "lucide-react"
-import { CreditCard } from "lucide-react"
-import { Send } from "lucide-react"
-import { ArrowUpRight } from "lucide-react"
+import TransactionTable from '@/components/table/TransactionTable';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { CardTitle } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import UserAction from '@/components/userAction/UserAction';
+import UserVerification from '@/dialog/UserVerification';
+import useAuth from '@/hooks/useAuth';
+import useUser from '@/hooks/useUser';
+import { DropdownMenu } from '@radix-ui/react-dropdown-menu';
 import { motion } from 'framer-motion';
+import { BadgeX, Verified, Wallet } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
+
 
 const Home = () => {
-    return (
-        <div>
-            {/* Main Content */}
-            <main className="md:pt-24">
-                <div className="container mx-auto px-4">
-                    <div className="flex flex-col lg:flex-row items-center gap-12 py-12">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="flex-1 space-y-6"
-                        >
-                            <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 dark:text-white">
-                                Modern Financial Services at Your Fingertips
-                            </h1>
-                            <p className="text-lg text-gray-600 dark:text-gray-300">
-                                Send money, pay bills, and manage your finances with our secure and intuitive platform.
-                            </p>
-                            <div className="flex gap-4">
-                                <Button size="lg" >
-                                    Get Started
-                                    <ArrowUpRight className="ml-2 h-5 w-5" />
-                                </Button>
-                                <Button variant="outline" size="lg">
-                                    Learn More
-                                </Button>
-                            </div>
-                        </motion.div>
 
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            className="flex-1"
-                        >
-                            <div className="relative">
-                                <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-20 blur-3xl rounded-full" />
-                                <div className="relative bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl">
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="space-y-4">
-                                            <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                                                <Send className="h-6 w-6 text-primary dark:text-white" />
-                                                <h3 className="mt-2 font-semibold dark:text-white">Send Money</h3>
-                                            </div>
-                                            <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                                                <CreditCard className="h-6 w-6 text-primary dark:text-white" />
-                                                <h3 className="mt-2 font-semibold dark:text-white">Pay Bills</h3>
-                                            </div>
-                                        </div>
-                                        <div className="space-y-4 pt-8">
-                                            <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                                                <Wallet className="h-6 w-6 text-primary dark:text-white" />
-                                                <h3 className="mt-2 font-semibold dark:text-white">Cash Out</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+    const { user } = useAuth()
+    const { data: info } = useUser({ email: user?.email })
+
+    console.log(info);
+
+
+    useEffect(() => {
+        if (info?.data?.acStatus == "unverified") {
+            toast.error("Please verify your account")
+            setOpen(true);
+            return
+
+        }
+    }, [info])
+
+    const [open, setOpen] = useState(false);
+
+
+    return (
+        <div className="w-11/12 md:w-10/12 mx-auto ">
+            <div className="md:flex h-full justify-between py-12 gap-5 ">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="flex-1"
+                >
+                    <div className="relative h-full">
+                        <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-20 blur-3xl rounded-full pointer-events-none" />
+                        <div className="relative bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl flex items-center gap-5 h-full">
+                            <div className="">
+                                {user ? (
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger>
+                                            <Avatar className="cursor-pointer w-20 h-20">
+                                                <AvatarImage src={user.photoURL || "/default-avatar.png"} alt="User Avatar" />
+                                                <AvatarFallback>U</AvatarFallback>
+                                            </Avatar>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                            <DropdownMenuItem >Logout</DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                ) : (
+                                    <Link to="/auth/login"><Button className="">Login</Button></Link>
+                                )}
                             </div>
-                        </motion.div>
+                            <div className={"p-4 flex items-center gap-4"}>
+                                <Wallet className='size-16 text-primary dark:text-white' />
+                                <div className="">
+                                    <CardTitle>Total Balance</CardTitle>
+                                    <p className="text-2xl font-semibold dark:text-white">${info?.data?.balance}</p>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400">Last updated 3 mins ago</p>
+                                </div>
+                                {info?.data?.acStatus == "unverified" ? <BadgeX className='text-red-500' /> : <Verified className='text-green-500' />}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </main>
+                </motion.div>
+                <UserAction />
+            </div>
+            <div className="">
+                <TransactionTable />
+            </div>
+            <UserVerification open={open} setOpen={setOpen} />
         </div>
     )
 }

@@ -32,7 +32,7 @@ const Header = () => {
                 <div className="flex items-center gap-5">
                     {/* Desktop Navigation */}
                     <nav className="hidden md:flex items-center gap-6">
-                        <Link to="/"><Button variant="ghost" className="dark:text-white">Home</Button></Link>
+                        <Link to="/home"><Button variant="ghost" className="dark:text-white">Home</Button></Link>
                         <Link to="/tasks"><Button variant="ghost" className="dark:text-white">Tasks</Button></Link>
                         <Link to="/contact"><Button variant="ghost" className="dark:text-white">Contact</Button></Link>
                     </nav>
@@ -87,7 +87,7 @@ const Header = () => {
                 className={`md:hidden bg-white dark:bg-[#111827] transition-all duration-300 shadow-md flex flex-col gap-3 p-5 absolute w-full left-0 ${mobileMenuOpen ? "top-16 opacity-100" : "-top-96 opacity-0"
                     }`}
             >
-                <Link to="/" onClick={() => setMobileMenuOpen(false)}>
+                <Link to="/home" onClick={() => setMobileMenuOpen(false)}>
                     <Button variant="link" className="w-full dark:text-white">Home</Button>
                 </Link>
                 <Link to="/tasks" onClick={() => setMobileMenuOpen(false)}>

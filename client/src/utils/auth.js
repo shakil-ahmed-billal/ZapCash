@@ -1,5 +1,6 @@
 import useAxiosPublic from "@/hooks/useAxiosPublic";
 
+// eslint-disable-next-line react-hooks/rules-of-hooks
 const axiosPublic = useAxiosPublic();
 
 const registerUser = async (userData) => {

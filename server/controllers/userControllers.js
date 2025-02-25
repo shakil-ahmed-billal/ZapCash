@@ -2,11 +2,13 @@ const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+
+// user register controller
 const registerUser = async (req, res) => {
   try {
     const { email, number, name, pin } = req.body;
 
-    // Validate input fields
+ 
     if (!email || !number || !name || !pin) {
       return res.status(400).json({
         success: false,
@@ -14,7 +16,7 @@ const registerUser = async (req, res) => {
       });
     }
 
-    // Ensure number is a string and not null
+  
     if (typeof number !== "string") {
       return res.status(400).json({
         success: false,
@@ -22,7 +24,7 @@ const registerUser = async (req, res) => {
       });
     }
 
-    // Check if user with the same number already exists
+   
     const existingUser = await User.findOne({ number });
 
     if (existingUser) {
@@ -33,11 +35,9 @@ const registerUser = async (req, res) => {
     }
 
     const hashedPin = await bcrypt.hash(pin, 10);
-    const token = jwt.sign(
-      { email, number },
-      process.env.SECRET_KEY,
-      { expiresIn: "1d" }
-    );
+    const token = jwt.sign({ email, number }, process.env.SECRET_KEY, {
+      expiresIn: "1d",
+    });
     const user = await User.create({
       name,
       number,
@@ -45,18 +45,20 @@ const registerUser = async (req, res) => {
       pin: hashedPin,
     });
     res
-    .cookie("token", token, {
-      httpOnly : process.env.NODE_ENV === "production",
-      secure : process.env.NODE_ENV === "production",
-      sameSite : process.env.NODE_ENV === "production" ? "none" : "strict",
-    })
+      .cookie("token", token, {
+        httpOnly: process.env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      })
       .status(201)
       .json({
         success: true,
         message: "User created successfully",
         user: {
           name: user.name,
-          acType: user.acType,
+          number: user.number,
+          email: user.email,
+          photoURL: user.photoURL,
         },
       });
   } catch (error) {
@@ -72,46 +74,98 @@ const registerUser = async (req, res) => {
   }
 };
 
+// login user controller 
 const loginUser = async (req, res) => {
-  try{
-    const {number , pin} = req.body;
+  try {
+    const { number, pin } = req.body;
 
-    if(!number || !pin){
+    if (!number || !pin) {
       return res.status(400).send({
-        success : false,
-        message : "All fields are required"
-      })
+        success: false,
+        message: "All fields are required",
+      });
     }
-    const findUser = await User.findOne({number});
+    const findUser = await User.findOne({ number });
 
-    if(!findUser){
+    if (!findUser) {
       return res.status(400).json({
-        success : false,
-        message : "User not found"
-      })
+        success: false,
+        message: "User not found",
+      });
     }
 
-    if(!await bcrypt.compare(pin , findUser.pin)){
+    if (!(await bcrypt.compare(pin, findUser.pin))) {
       return res.status(400).send({
-        success : false,
-        message : "Incorrect pin"
-      })
+        success: false,
+        message: "Incorrect pin",
+      });
     }
 
-    if(findUser){
+    if (findUser) {
       res.status(200).send({
-        success: true ,
-        message : "User logged in successfully",
-        user : {
-          name : findUser.name,
-          acType : findUser.acType
-        }
-      })
-      
+        success: true,
+        message: "User logged in successfully",
+        user: {
+          name: findUser.name,
+          number: findUser.number,
+          email: findUser.email,
+          photoURL: findUser.photoURL,
+        },
+      });
     }
-  } catch(error){
+  } catch (error) {
     console.log(error);
   }
 };
 
-module.exports = { registerUser , loginUser };
+
+const userVerify = async (req, res) => {
+  try {
+    const { acType, nid, email } = req.body;
+
+    // Check if required fields exist
+    if (!acType || !nid || !email) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+
+    // Find user by email
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // Update user details
+    user.acType = acType;
+    user.nid = nid;
+    user.acStatus = "verified";
+
+    // Save updated user
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "User verified successfully",
+      user: {
+        name: user.name,
+        number: user.number,
+        email: user.email,
+        photoURL: user.photoURL,
+      },
+    });
+  } catch (error) {
+    console.error("Error verifying user:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+module.exports = { registerUser, loginUser , userVerify};

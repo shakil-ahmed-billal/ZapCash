@@ -3,6 +3,7 @@ import Login from "@/authentication/login/Login";
 import Register from "@/authentication/register/Register";
 import MainPage from "@/layouts/MainPage";
 import Home from "@/pages/home/Home";
+import Landing from "@/pages/Landing/Landing";
 import { createBrowserRouter } from "react-router-dom";
 
 
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
+                element: <Landing />
+            },
+            {
+                path: "/home",
                 element: <Home />
             }
         ]
