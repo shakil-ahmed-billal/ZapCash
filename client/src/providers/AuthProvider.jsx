@@ -1,4 +1,4 @@
-import { registerUser } from '@/utils/auth'
+import { loginUser, registerUser } from '@/utils/auth'
 import Cookies from 'js-cookie'
 import { createContext, useEffect, useState } from 'react'
 
@@ -16,7 +16,7 @@ const AuthProvider = ({ children }) => {
 
             if (response.success) {
                 // Store token and user data 
-                Cookies.set('token', response.token, { expires: 7 }) 
+                Cookies.set('token', response.token, { expires: 7 })
                 Cookies.set('user', JSON.stringify(response.user), { expires: 7 })
 
                 setUser(response.user)
@@ -25,11 +25,34 @@ const AuthProvider = ({ children }) => {
 
                 return response
             } else {
-                throw new Error(response.message)
+                return { success: false, message: response.message }
             }
         } catch (error) {
             console.error('Registration failed:', error.message)
             return { success: false, message: error.message }
+        }
+    }
+
+    const userLogin = async (data) => {
+        try {
+            const response = await loginUser(data)
+
+            if (response.success) {
+                // Store token and user data 
+                Cookies.set('token', response.token, { expires: 7 })
+                Cookies.set('user', JSON.stringify(response.user), { expires: 7 })
+
+                setUser(response.user)
+                setToken(response.token)
+                setLoading(false)
+                return response
+            } else {
+                return { success: false, message: response.response.data.message}
+            }
+
+        } catch (error) {
+            console.log("User Login Fail", error);
+            return { success: false, message: error.response.data.message}
         }
     }
 
@@ -39,7 +62,7 @@ const AuthProvider = ({ children }) => {
         Cookies.remove('user')
         setUser(null)
         setToken(null)
-        setLoading(false) 
+        setLoading(false)
     }
 
     // Check for user token and user data on first render
@@ -49,7 +72,7 @@ const AuthProvider = ({ children }) => {
 
         if (userToken && savedUser) {
             setUser(JSON.parse(savedUser))
-            setToken(userToken) 
+            setToken(userToken)
         }
 
         setLoading(false)
@@ -60,7 +83,8 @@ const AuthProvider = ({ children }) => {
         token,
         loading,
         userRegister,
-        userLogOut
+        userLogOut,
+        userLogin
     }
 
     return (

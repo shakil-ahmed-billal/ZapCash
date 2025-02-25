@@ -99,7 +99,7 @@ const Register = () => {
                             <div className="flex justify-between items-center text-sm">
                             </div>
                             <Button type="submit" className="w-full">
-                                Sign In
+                                Register
                             </Button>
                         </form>
                         <div className="mt-4 flex items-center justify-center">

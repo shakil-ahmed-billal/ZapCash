@@ -1,17 +1,35 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import useAuth from "@/hooks/useAuth"
 import { Label } from "@radix-ui/react-dropdown-menu"
 import { ArrowLeft } from "lucide-react"
 import { useForm } from "react-hook-form"
-import { Link } from "react-router-dom"
+import toast from "react-hot-toast"
+import { Link, useNavigate } from "react-router-dom"
 
 const Login = () => {
 
     const { register, handleSubmit, formState: { errors }, } = useForm()
-        const onSubmit = (e) => {
-            console.log(e);
-        };
+    const { userLogin } = useAuth()
+    const navigate = useNavigate()
+
+    const onSubmit = async (e) => {
+        console.log(e);
+        try {
+            const data = await userLogin(e)
+            if (data.success) {
+                toast.success(data.message);
+                navigate("/")
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message);
+        }
+
+    };
 
     return (
         <div className="w-11/12 md:w-10/12 mx-auto  min-h-screen">

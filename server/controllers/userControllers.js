@@ -72,4 +72,46 @@ const registerUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser };
+const loginUser = async (req, res) => {
+  try{
+    const {number , pin} = req.body;
+
+    if(!number || !pin){
+      return res.status(400).send({
+        success : false,
+        message : "All fields are required"
+      })
+    }
+    const findUser = await User.findOne({number});
+
+    if(!findUser){
+      return res.status(400).json({
+        success : false,
+        message : "User not found"
+      })
+    }
+
+    if(!await bcrypt.compare(pin , findUser.pin)){
+      return res.status(400).send({
+        success : false,
+        message : "Incorrect pin"
+      })
+    }
+
+    if(findUser){
+      res.status(200).send({
+        success: true ,
+        message : "User logged in successfully",
+        user : {
+          name : findUser.name,
+          acType : findUser.acType
+        }
+      })
+      
+    }
+  } catch(error){
+    console.log(error);
+  }
+};
+
+module.exports = { registerUser , loginUser };

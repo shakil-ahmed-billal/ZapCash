@@ -18,8 +18,9 @@ const registerUser = async (userData) => {
 };
 
 const loginUser = async (userData) => {
+  console.log(userData);
   try {
-    const { data } = await useAxiosPublic.post("/api/user/login", userData);
+    const { data } = await axiosPublic.post("/api/user/login", userData);
     console.log(data);
     if (data.success) {
       return data;
