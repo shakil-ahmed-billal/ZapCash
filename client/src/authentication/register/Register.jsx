@@ -1,16 +1,43 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import useAuth from "@/hooks/useAuth"
 import { Label } from "@radix-ui/react-dropdown-menu"
 import { ArrowLeft } from "lucide-react"
 import { useForm } from "react-hook-form"
-import { Link } from "react-router-dom"
+import toast from "react-hot-toast"
+import { Link, useNavigate } from "react-router-dom"
 
 const Register = () => {
 
     const { register, handleSubmit, formState: { errors }, } = useForm()
-    const onSubmit = (e) => {
+    const navigate = useNavigate()
+    const { userRegister , user} = useAuth()
+
+    console.log(user);
+
+    const onSubmit = async (e) => {
         console.log(e);
+
+        const userData = {
+            name: e.name,
+            number: e.number,
+            email: e.email,
+            pin: e.pin
+        }
+
+        try {
+            const data = await userRegister(userData);
+            if (data.success) {
+                toast.success(data.message);
+                navigate("/")
+            }
+            console.log(data);
+        } catch (error) { 
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
+
     };
 
     return (
@@ -72,7 +99,7 @@ const Register = () => {
                             <div className="flex justify-between items-center text-sm">
                             </div>
                             <Button type="submit" className="w-full">
-                                Sign In
+                                Register
                             </Button>
                         </form>
                         <div className="mt-4 flex items-center justify-center">
