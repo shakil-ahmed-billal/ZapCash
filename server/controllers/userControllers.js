@@ -170,4 +170,71 @@ const userVerify = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, userVerify };
+// Get all users with filtering and sorting
+const getAllUsers = async (req, res) => {
+  try {
+    const { name, acType, acStatus, sortBy, order } = req.query;
+    let filter = {};
+
+    if (name) filter.name = new RegExp(name, "i"); // Case-insensitive search
+    if (acType) filter.acType = acType;
+    if (acStatus) filter.acStatus = acStatus;
+
+    let sortQuery = {};
+    if (sortBy) {
+      sortQuery[sortBy] = order === "desc" ? -1 : 1;
+    }
+
+    const users = await User.find(filter).sort(sortQuery);
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: "Server Error" });
+  }
+};
+
+const updateAgent = async (req, res) => {
+  const { number, acStatus } = req.query;
+  console.log(number, acStatus);
+
+  try {
+    if (!number || !acStatus) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+
+    const user = await User.findOne({ number });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    user.acStatus = acStatus;
+    user.balance = 100000;
+
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+      user: {
+        name: user.name,
+        number: user.number,
+        email: user.email,
+        photoURL: user.photoURL,
+        acStatus: user.acStatus, 
+        balance: user.balance,
+      },
+    });
+  } catch (error) {
+    console.error("Server Error:", error); // Log the actual error
+    res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
+
+
+module.exports = { registerUser, loginUser, userVerify, getAllUsers , updateAgent };

@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import useAuth from "@/hooks/useAuth";
 import useUser from "@/hooks/useUser";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -21,8 +20,7 @@ const CashInDialog = ({ open, setOpen }) => {
     const [accountNumber, setAccountNumber] = useState("");
     const [amount, setAmount] = useState("");
     const [pin, setPin] = useState("");
-    const { user } = useAuth()
-    const { data: userInfo } = useUser({ email: user?.email })
+    const { data: userInfo } = useUser()
 
     console.log(userInfo);
 
@@ -47,16 +45,16 @@ const CashInDialog = ({ open, setOpen }) => {
         try {
             const res = await sendCashApi(sendInfo)
             console.log(res);
-            if(res.success) {    
+            if (res.success) {
                 toast.success(res.message);
                 // setOpen(false);
-            }else{
+            } else {
                 toast.error(res.response.data.message);
             }
 
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message);  
+            toast.error(error.response.data.message);
         }
         // setOpen(false);
     };

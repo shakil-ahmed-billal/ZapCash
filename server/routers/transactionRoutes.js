@@ -1,8 +1,9 @@
 const express = require("express");
-const { sendCash } = require("../controllers/transactionController");
+const { sendCash, getUserTrx } = require("../controllers/transactionController");
 const router = express.Router();
 
 router.post("/trx", sendCash);
+router.get("/trx/:number", getUserTrx);
 
 
 module.exports = router;
