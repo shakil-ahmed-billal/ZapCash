@@ -17,7 +17,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 // eslint-disable-next-line react/prop-types
-const SendMoneyDialog = ({ open, setOpen }) => {
+const CashOutDialog = ({ open, setOpen }) => {
     const [accountNumber, setAccountNumber] = useState("");
     const [amount, setAmount] = useState("");
     const [pin, setPin] = useState("");
@@ -40,7 +40,7 @@ const SendMoneyDialog = ({ open, setOpen }) => {
             amount: parseInt(amount),
             pin: pin,
             acType: userInfo?.data?.acType,
-            txType: "sendMoney",
+            txType: "cashOut",
         };
 
         console.log("user info", sendInfo);
@@ -65,7 +65,7 @@ const SendMoneyDialog = ({ open, setOpen }) => {
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Send Money</DialogTitle>
+                    <DialogTitle>Cash Out</DialogTitle>
                     <DialogDescription>5 taka per transaction for amounts over 100 taka.</DialogDescription>
                     <DialogDescription>Phone number of the recipient.</DialogDescription>
                     <DialogDescription>Specify the amount to send.</DialogDescription>
@@ -73,7 +73,7 @@ const SendMoneyDialog = ({ open, setOpen }) => {
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="account-number" className="text-right">
-                            Account No
+                            Agent No
                         </Label>
                         <Input
                             id="account-number"
@@ -112,7 +112,7 @@ const SendMoneyDialog = ({ open, setOpen }) => {
                 </div>
                 <DialogFooter>
                     <Button onClick={handleSendMoney} type="submit">
-                        Pay Now
+                        Cash Out
                     </Button>
                 </DialogFooter>
             </DialogContent>
@@ -120,4 +120,4 @@ const SendMoneyDialog = ({ open, setOpen }) => {
     );
 };
 
-export default SendMoneyDialog;
+export default CashOutDialog;

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { CreditCard, Send, Wallet } from 'lucide-react';
 import { useState } from 'react';
 
-const UserAction = () => {
+const AdminAction = () => {
 
 
     const [open2, setOpen2] = useState(false);
@@ -33,7 +33,7 @@ const UserAction = () => {
                             <div className="space-y-4">
                                 <div onClick={handleSendMoney} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg cursor-pointer">
                                     <Send className="h-6 w-6 text-primary dark:text-white" />
-                                    <h3 className="mt-2 font-semibold dark:text-white">Send Money</h3>
+                                    <h3 className="mt-2 font-semibold dark:text-white">Cash In</h3>
                                 </div>
                                 <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                                     <CreditCard className="h-6 w-6 text-primary dark:text-white" />
@@ -43,7 +43,7 @@ const UserAction = () => {
                             <div className="space-y-4">
                                 <div onClick={handleCashOut} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                                     <Wallet className="h-6 w-6 text-primary dark:text-white" />
-                                    <h3 className="mt-2 font-semibold dark:text-white">Cash Out</h3>
+                                    <h3 className="mt-2 font-semibold dark:text-white">B2B</h3>
                                 </div>
                                 <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                                     <CreditCard className="h-6 w-6 text-primary dark:text-white" />
@@ -60,4 +60,4 @@ const UserAction = () => {
     )
 }
 
-export default UserAction
+export default AdminAction

@@ -1,6 +1,8 @@
 import TransactionTable from '@/components/table/TransactionTable';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { CardTitle } from '@/components/ui/card';
+import AdminAction from '@/components/userAction/AdminAction';
+import AgentAction from '@/components/userAction/AgentAction';
 import UserAction from '@/components/userAction/UserAction';
 import UserVerification from '@/dialog/UserVerification';
 import useAuth from '@/hooks/useAuth';
@@ -49,7 +51,7 @@ const Home = () => {
                             <div className={"p-4 flex items-center gap-4"}>
                                 <div className="">
                                     <CardTitle>Total Balance</CardTitle>
-                                    <p className="text-2xl font-semibold dark:text-white">${info?.data?.balance}</p>
+                                    <p className="text-2xl font-semibold dark:text-white">${parseFloat(info?.data?.balance).toFixed(2)}</p>
                                     <p className="text-sm text-gray-500 dark:text-gray-400">Last updated 3 mins ago</p>
                                     <p className='font-semibold dark:text-white'>Account Type: {info?.data?.acType}</p>
                                     <p className='font-semibold dark:text-white flex items-center gap-2'>Account Status: {info?.data?.acStatus == "unverified" ? <BadgeX className='text-red-500' /> : info?.data?.acStatus == "pending" ? <Verified className='text-yellow-500' /> : <Verified className='text-green-400' />}</p>
@@ -64,7 +66,8 @@ const Home = () => {
                         </div>
                     </div>
                 </motion.div>
-                <UserAction />
+                {info?.data?.acType === "user" ? <UserAction /> : info?.data?.acType === "agent" ? <AgentAction /> : <AdminAction />}
+
             </div>
             <div className="">
                 <TransactionTable />
