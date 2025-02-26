@@ -4,6 +4,7 @@ import Register from "@/authentication/register/Register";
 import MainPage from "@/layouts/MainPage";
 import AgentManage from "@/pages/admin/AgentManage";
 import AllUserManage from "@/pages/admin/AllUserManage";
+import TrxHistory from "@/pages/admin/TrxHistory";
 import Dashboard from "@/pages/dashboard/Dashboard";
 import Home from "@/pages/home/Home";
 import Landing from "@/pages/Landing/Landing";
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
             {
                 path: "/dashboard/agent-manage",
                 element: <AgentManage />
+            },
+            {
+                path: "/dashboard/transactions",
+                element: <TrxHistory />
             }
             // admin dashboard router
         ]

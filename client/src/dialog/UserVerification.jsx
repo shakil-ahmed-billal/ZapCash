@@ -12,15 +12,18 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPublic from "@/hooks/useAxiosPublic";
+import useUser from "@/hooks/useUser";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 // eslint-disable-next-line react/prop-types
 const UserVerification = ({ open, setOpen }) => {
+
     const [userNid, setNid] = useState("");
     const [type, setType] = useState("user");
     const axiosPublic = useAxiosPublic();
     const { user } = useAuth()
+    const { refetch} = useUser();
 
     const handleVerify = async () => {
         console.log("NID:", userNid);
@@ -30,6 +33,7 @@ const UserVerification = ({ open, setOpen }) => {
         if (data.success) {
             toast.success(data.message);
             setOpen(false);
+            refetch();
         }
         console.log(data);
     };
