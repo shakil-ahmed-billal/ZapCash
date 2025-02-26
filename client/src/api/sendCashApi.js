@@ -3,7 +3,7 @@ import axios from "axios";
 const sendCashApi = async (sendData) => {
   console.log(sendData);
   try {
-    const { data } = await axios.post("http://localhost:5000/api/trx", sendData);
+    const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/trx`, sendData);
     console.log(data);
     return data;
   } catch (error) {
