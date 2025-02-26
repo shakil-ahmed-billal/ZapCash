@@ -3,6 +3,6 @@ const { getInfo } = require("../controllers/infoController");
 
 const router = express.Router();
 
-router.get("/info/:email", getInfo);
+router.get("/info", getInfo);
 
 module.exports = router;

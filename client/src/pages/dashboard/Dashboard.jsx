@@ -1,4 +1,5 @@
 import Header from '@/components/header/Header';
+import Loading from '@/components/loading/Loading';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import useUser from '@/hooks/useUser';
@@ -31,7 +32,9 @@ function SidebarItem({ icon, title, isActive }) {
 function Sidebar({ isOpen, toggleSidebar }) {
 
 
-    const { data: info } = useUser()
+    const { data: info, isLoading, isPending } = useUser()
+
+    if (isLoading || isPending) return <Loading />
 
     console.log(info);
     return (
@@ -75,7 +78,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
                             <Link to="/dashboard"><SidebarItem icon={<Home className="h-4 w-4" />} title="Dashboard" /></Link>
                             <Link to="/dashboard/user-manage"><SidebarItem icon={<Users className="h-4 w-4" />} title="Manage Users" /></Link>
                             <Link to="/dashboard/agent-manage"><SidebarItem icon={<Users className="h-4 w-4" />} title="Agent Approval" /></Link>
-                            <Link to="/dashboard/transactions"><SidebarItem icon={<Users className="h-4 w-4" />} title="Transactions" /></Link>
+                            <Link to="/dashboard/transactions"><SidebarItem icon={<Users className="h-4 w-4" />} title="All Trx History" /></Link>
                         </>}
 
                     </div>

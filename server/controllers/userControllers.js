@@ -141,12 +141,13 @@ const userVerify = async (req, res) => {
       user.acType = acType;
       user.nid = nid;
       user.acStatus = "verified";
+      user.balance += 40;
     }
     if (acType === "agent") {
       user.acType = acType;
       user.acStatus = "pending";
       user.nid = nid;
-      user.balance = 40;
+      
     }
     // Save updated user
     await user.save();

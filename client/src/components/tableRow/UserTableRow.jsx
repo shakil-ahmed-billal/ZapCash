@@ -19,7 +19,7 @@ const UserTableRow = ({ invoice }) => {
                 <TableCell>{invoice.acType}</TableCell>
                 <TableCell className="text-right">{invoice.acStatus}</TableCell>
             </TableRow>
-            <StatusDialog number={invoice.number} open={open} setOpen={setOpen}/>
+            <StatusDialog open={open} setOpen={setOpen}/>
         </>
     )
 }

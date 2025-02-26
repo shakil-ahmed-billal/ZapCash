@@ -238,6 +238,5 @@ const getUserTrx = async (req, res) => {
   }
 };
 
-module.exports = { getUserTrx };
 
 module.exports = { sendCash, getUserTrx };

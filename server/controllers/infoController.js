@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 
 const getInfo = async (req, res) => {
-  const { email } = req.params;
+  const { email , number} = req.query;
 
   console.log(email);
 
@@ -12,7 +12,8 @@ const getInfo = async (req, res) => {
         message: "Email is required",
       });
     }
-    const user = await User.findOne({ email });
+
+    const user = await User.findOne({$or: [{ email: email }, { number: number }]});
 
     if (!user) {
       return res.status(400).json({
