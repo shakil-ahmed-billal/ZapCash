@@ -22,13 +22,12 @@ const Header = () => {
     };
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <header className="sticky top-0 z-20 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="md:px-20 px-5 flex h-14 items-center justify-between">
                 {/* Logo and Desktop Navigation */}
                 <div className="flex items-center space-x-6">
                     <Link to="/" className="flex items-center space-x-2">
-                        <LineChart className="h-6 w-6" />
-                        <span className="font-bold">Dashboard</span>
+                        <img src="/logo.png" alt="Logo" className="h-8" />
                     </Link>
                     <nav className="hidden md:flex space-x-4">
                         <Link to="/home" className="hover:text-primary">Home</Link>
@@ -81,11 +80,11 @@ const Header = () => {
                         {user ? <DropdownMenuTrigger asChild>
                             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                                 <Avatar className="h-8 w-8">
-                                    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                                    <AvatarImage src={user?.photoURL} alt="@shadcn" />
                                     <AvatarFallback>SC</AvatarFallback>
                                 </Avatar>
                             </Button>
-                        </DropdownMenuTrigger> : <Link to="/auth/login"><Button>Login</Button></Link>}
+                        </DropdownMenuTrigger> : <Link to="/auth/login"><Button onClick={handleLogout}>Login</Button></Link>}
                         <DropdownMenuContent className="w-56" align="end">
                             <DropdownMenuLabel className="font-normal">
                                 <div className="flex flex-col space-y-1">

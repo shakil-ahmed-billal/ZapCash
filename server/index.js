@@ -5,7 +5,7 @@ const morgan = require("morgan");
 const connectDB = require("./config/DBconnect");
 const userRoutes = require("./routers/userRoutes");
 const infoRoutes = require("./routers/infoRoutes");
-
+const transactionRoutes = require("./routers/transactionRoutes");
 const app = express();
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -26,6 +26,7 @@ connectDB();
 // route definition
 app.use("/api/user", userRoutes);
 app.use("/api", infoRoutes);
+app.use("/api", transactionRoutes);
 
 // server start debug
 app.get("/", (req, res) => res.send("server  is running"));
