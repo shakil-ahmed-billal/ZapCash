@@ -17,7 +17,7 @@ const Home = () => {
 
     const { user } = useAuth()
 
-    const { data: info } = useUser({ email: user?.email })
+    const { data: info } = useUser()
 
     console.log(info);
     const [open, setOpen] = useState(false);
@@ -50,6 +50,7 @@ const Home = () => {
                         <div className="relative bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl flex items-center gap-5 h-full w-full justify-between">
                             <div className={"p-4 flex items-center gap-4"}>
                                 <div className="">
+                                    <p>Name : {info?.data?.name}</p>
                                     <CardTitle>Total Balance</CardTitle>
                                     <p className="text-2xl font-semibold dark:text-white">${parseFloat(info?.data?.balance).toFixed(2)}</p>
                                     <p className="text-sm text-gray-500 dark:text-gray-400">Last updated 3 mins ago</p>

@@ -45,9 +45,9 @@ const Header = () => {
                     </SheetTrigger>
                     <SheetContent side="left" className="w-[240px] sm:w-[280px]">
                         <div className="flex flex-col space-y-4">
-                            <Link href="/" className="font-bold text-lg">Home</Link>
-                            <Link href="/dashboard" className="font-bold text-lg">Dashboard</Link>
-                            <Link href="/contact" className="font-bold text-lg">Contact</Link>
+                            <Link to="/home" className="font-bold text-lg">Home</Link>
+                            <Link to="/dashboard" className="font-bold text-lg">Dashboard</Link>
+                            <Link to="/contact" className="font-bold text-lg">Contact</Link>
                         </div>
                     </SheetContent>
                 </Sheet>
