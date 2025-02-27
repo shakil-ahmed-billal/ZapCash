@@ -11,7 +11,9 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import useUserTrx from "@/hooks/userUserTrx";
 import useUser from "@/hooks/useUser";
+
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -20,7 +22,8 @@ const CashInDialog = ({ open, setOpen }) => {
     const [accountNumber, setAccountNumber] = useState("");
     const [amount, setAmount] = useState("");
     const [pin, setPin] = useState("");
-    const { data: userInfo } = useUser()
+    const { data: userInfo, refetch } = useUser()
+    const { refetch: refetchUserTrx } = useUserTrx();
 
     console.log(userInfo);
 
@@ -47,7 +50,8 @@ const CashInDialog = ({ open, setOpen }) => {
             console.log(res);
             if (res.success) {
                 toast.success(res.message);
-                // setOpen(false);
+
+                setOpen(false);
             } else {
                 toast.error(res.response.data.message);
             }
@@ -56,7 +60,9 @@ const CashInDialog = ({ open, setOpen }) => {
             console.log(error);
             toast.error(error.response.data.message);
         }
-        // setOpen(false);
+        setOpen(false);
+        refetch();
+        refetchUserTrx();
     };
 
     return (
@@ -64,9 +70,8 @@ const CashInDialog = ({ open, setOpen }) => {
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Cash In</DialogTitle>
-                    <DialogDescription>5 taka per transaction for amounts over 100 taka.</DialogDescription>
-                    <DialogDescription>Phone number of the recipient.</DialogDescription>
-                    <DialogDescription>Specify the amount to send.</DialogDescription>
+                    <DialogDescription>Deposit money via agents with zero fees</DialogDescription>
+                   
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
@@ -110,7 +115,7 @@ const CashInDialog = ({ open, setOpen }) => {
                 </div>
                 <DialogFooter>
                     <Button onClick={handleSendMoney} type="submit">
-                        Cash Out
+                        Cash In
                     </Button>
                 </DialogFooter>
             </DialogContent>

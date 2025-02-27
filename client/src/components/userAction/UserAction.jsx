@@ -35,17 +35,17 @@ const UserAction = () => {
                                     <Send className="h-6 w-6 text-primary dark:text-white" />
                                     <h3 className="mt-2 font-semibold dark:text-white">Send Money</h3>
                                 </div>
-                                <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <div className="p-4 cursor-pointer bg-gray-50 dark:bg-gray-700 rounded-lg">
                                     <CreditCard className="h-6 w-6 text-primary dark:text-white" />
                                     <h3 className="mt-2 font-semibold dark:text-white">Pay Bills</h3>
                                 </div>
                             </div>
                             <div className="space-y-4">
-                                <div onClick={handleCashOut} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <div onClick={handleCashOut} className="p-4 cursor-pointer bg-gray-50 dark:bg-gray-700 rounded-lg">
                                     <Wallet className="h-6 w-6 text-primary dark:text-white" />
                                     <h3 className="mt-2 font-semibold dark:text-white">Cash Out</h3>
                                 </div>
-                                <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <div className="p-4 bg-gray-50 cursor-pointer dark:bg-gray-700 rounded-lg">
                                     <CreditCard className="h-6 w-6 text-primary dark:text-white" />
                                     <h3 className="mt-2 font-semibold dark:text-white">Pay Bills</h3>
                                 </div>

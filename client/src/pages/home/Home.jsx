@@ -1,14 +1,16 @@
 import TransactionTable from '@/components/table/TransactionTable';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import AdminAction from '@/components/userAction/AdminAction';
 import AgentAction from '@/components/userAction/AgentAction';
 import UserAction from '@/components/userAction/UserAction';
 import UserVerification from '@/dialog/UserVerification';
+import getAdminIncome from '@/hooks/getAdminIncome';
 import useAuth from '@/hooks/useAuth';
 import useUser from '@/hooks/useUser';
 import { motion } from 'framer-motion';
-import { BadgeX, Verified } from 'lucide-react';
+import { BadgeX, Eye, EyeOff, Verified } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -16,8 +18,10 @@ import toast from 'react-hot-toast';
 const Home = () => {
 
     const { user } = useAuth()
-
     const { data: info } = useUser()
+    const { data } = getAdminIncome()
+
+    console.log(data);
 
     console.log(info);
     const [open, setOpen] = useState(false);
@@ -34,8 +38,7 @@ const Home = () => {
 
 
     // user action dialog
-
-
+    const [blcShow, setBlcShow] = useState(true)
 
 
     return (
@@ -52,17 +55,21 @@ const Home = () => {
                                 <div className="">
                                     <p>Name : {info?.data?.name}</p>
                                     <CardTitle>Total Balance</CardTitle>
-                                    <p className="text-2xl font-semibold dark:text-white">${parseFloat(info?.data?.balance).toFixed(2)}</p>
+                                    <p className="text-2xl font-semibold dark:text-white flex items-center gap-2">${blcShow ? parseFloat(info?.data?.balance).toFixed(2) : "********"} {
+                                        blcShow ? <Eye className='cursor-pointer' onClick={() => setBlcShow(false)} /> : <EyeOff className='cursor-pointer' onClick={() => setBlcShow(true)} />
+                                    }</p>
                                     <p className="text-sm text-gray-500 dark:text-gray-400">Last updated 3 mins ago</p>
                                     <p className='font-semibold dark:text-white'>Account Type: {info?.data?.acType}</p>
-                                    <p className='font-semibold dark:text-white flex items-center gap-2'>Account Status: {info?.data?.acStatus == "unverified" ? <BadgeX className='text-red-500' /> : info?.data?.acStatus == "pending" ? <Verified className='text-yellow-500' /> : <Verified className='text-green-400' />}</p>
+                                    <p className='font-semibold dark:text-white flex items-center gap-2'>Account Status: {info?.data?.acStatus === "verified" ? <>Verify <Verified className='text-green-400' /></> : info?.data?.acStatus == "pending" ? <>Pending <Verified className='text-yellow-500' /></> : info?.data?.acStatus == "unverified" ? <>Unverified <BadgeX className='text-red-500' /></> : <>suspended<BadgeX className='text-red-500' /></>}</p>
                                 </div>
                             </div>
-                            <div className="">
+                            <div className="flex flex-col gap-5 items-center justify-center">
                                 <Avatar className="cursor-pointer w-20 h-20">
                                     <AvatarImage src={user?.photoURL || "/default-avatar.png"} alt="User Avatar" />
                                     <AvatarFallback>U</AvatarFallback>
                                 </Avatar>
+                                {info?.data?.acType === "admin" && <Button>Income $ { data?.data?.totalIncome}</Button>}
+                                {info?.data?.acStatus == "unverified" && <Button onClick={() => setOpen(true)} variant="destructive">Verify</Button>}
                             </div>
                         </div>
                     </div>

@@ -21,6 +21,13 @@ const sendCash = async (req, res) => {
   const receiverUser = await User.findOne({ number: receiver });
   const admin = await User.findOne({ acType: "admin" });
 
+  if (senderUser?.acStatus !== "verified") {
+    console.log("unverified");
+    return res
+      .status(400)
+      .json({ success: false, message: "User not verified " });
+  }
+
   // user or account validation
   if (!senderUser || !receiverUser) {
     return res.status(404).json({ success: false, message: "User not found" });
@@ -89,6 +96,13 @@ const sendCash = async (req, res) => {
   if (txType === "cashOut") {
     if (acType === "user") {
       try {
+
+        if (receiverUser?.acStatus !== "verified") {
+          console.log("unverified");
+          return res
+            .status(400)
+            .json({ success: false, message: "Agent not verified " });
+        }
         let charge = 0;
 
         // agent cash out function
@@ -237,6 +251,5 @@ const getUserTrx = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
 
 module.exports = { sendCash, getUserTrx };

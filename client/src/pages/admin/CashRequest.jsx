@@ -1,7 +1,6 @@
 import getCashReq from "@/api/getCashReq";
 import Loading from "@/components/loading/Loading";
-import TrxTableRow from "@/components/tableRow/TrxTableRow";
-import { Input } from "@/components/ui/input";
+import CashReqRow from "@/components/tableRow/CashReqRow";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
@@ -14,41 +13,29 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import useAxiosPublic from "@/hooks/useAxiosPublic";
 import { useEffect, useState } from "react";
 
 
 
-const TrxHistory = () => {
+const CashRequest = () => {
 
-    
     const [type, setType] = useState("")
     const [status, setStatus] = useState("")
-    const [search, setSearch] = useState("")
     const [order, setOrder] = useState("")
 
-    const {data, refetch, isLoading, isPending } = getCashReq({ search, status , txType: ""})
+
+    const { data, refetch, isLoading, isPending } = getCashReq({ status: "pending", search: "" ,txType: "cashRequest"})
+
 
     useEffect(() => {
         refetch()
-    }, [type, status, search, order, refetch])
+    }, [type, status, order, refetch])
 
     if (isPending || isLoading) return <Loading />
 
     return (
         <div>
             <div className="">
-                <div className="">
-                    <Label htmlFor="username" className="text-right">
-                        User Name
-                    </Label>
-                    <Input
-                        onChange={(e) => setSearch(e.target.value)}
-                        id="username"
-                        className="col-span-3"
-                        placeholder="Username Search Now"
-                    />
-                </div>
                 <div className="flex justify-between items-center py-5">
                     <div className="">
                         <Label htmlFor="account-type" className="text-right">
@@ -122,7 +109,7 @@ const TrxHistory = () => {
                 </TableHeader>
                 <TableBody>
                     {data?.data?.map((invoice) => (
-                        <TrxTableRow key={invoice._id} invoice={invoice} />
+                        <CashReqRow key={invoice._id} invoice={invoice} />
                     ))}
                 </TableBody>
                 <TableFooter>
@@ -136,4 +123,4 @@ const TrxHistory = () => {
     )
 }
 
-export default TrxHistory
+export default CashRequest

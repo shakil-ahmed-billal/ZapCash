@@ -9,17 +9,14 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import userTrx from "@/hooks/userUserTrx";
-import useUser from "@/hooks/useUser";
-import UserTrxRow from "../tableRow/UserTrxRow";
 
 
 
-const TransactionTable = () => {
+const UserTrx = () => {
 
 
     const { data } = userTrx()
-    const { data: info } = useUser()
-
+    console.log(data);
 
     return (
         <Table>
@@ -32,12 +29,23 @@ const TransactionTable = () => {
                     <TableHead>Status</TableHead>
                     <TableHead>Trx Type</TableHead>
                     <TableHead>AC Type</TableHead>
-                    <TableHead>{info?.data?.acType === "agent" ? "Commission" : info?.data?.acType === "admin" ? "Commission" : "Charge"}</TableHead>
+                    <TableHead>Charge</TableHead>
                     <TableHead className="text-right">Amount</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {data?.data?.slice(0, 8).map((invoice) => <UserTrxRow invoice={invoice} key={invoice._id} />)}
+                {data?.data?.map((invoice) => (
+                    <TableRow key={invoice._id}>
+                        <TableCell className="font-medium">{invoice._id.slice(0, 10)}</TableCell>
+                        <TableCell>{invoice.date}</TableCell>
+                        <TableCell>{invoice.receiver}</TableCell>
+                        <TableCell>{invoice.status}</TableCell>
+                        <TableCell>{invoice.txType}</TableCell>
+                        <TableCell>{invoice.acType}</TableCell>
+                        <TableCell>$ {invoice.charge}</TableCell>
+                        <TableCell className="text-right">$ {invoice.amount}</TableCell>
+                    </TableRow>
+                ))}
             </TableBody>
             <TableFooter>
                 <TableRow>
@@ -49,4 +57,4 @@ const TransactionTable = () => {
     )
 }
 
-export default TransactionTable
+export default UserTrx

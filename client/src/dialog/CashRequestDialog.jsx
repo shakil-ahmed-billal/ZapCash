@@ -1,5 +1,3 @@
-// import sendCashApi from "@/api/sendCashApi";
-import sendCashApi from "@/api/sendCashApi";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -11,77 +9,65 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import useAxiosPublic from "@/hooks/useAxiosPublic";
+import useUserTrx from "@/hooks/userUserTrx";
 import useUser from "@/hooks/useUser";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 // eslint-disable-next-line react/prop-types
-const CashOutDialog = ({ open, setOpen }) => {
-    const [accountNumber, setAccountNumber] = useState("");
+const CashRequestDialog = ({ open, setOpen }) => {
+
+    const axiosPublic = useAxiosPublic();
     const [amount, setAmount] = useState("");
     const [pin, setPin] = useState("");
-    const { data: userInfo , refetch } = useUser()
+    const { data: userInfo, refetch } = useUser();
+    const { refetch: refetchUserTrx } = useUserTrx();
 
-    console.log(userInfo);
-
-    const handleSendMoney = async () => {
-        if (!accountNumber || !amount || !pin) {
+    const handleCashRequest = async () => {
+        if (!amount || !pin) {
             toast.error("All fields are required!");
             return;
         }
 
-        console.log(accountNumber, amount, pin);
-
-        const sendInfo = {
+        const requestInfo = {
             sender: userInfo?.data?.number,
-            receiver: accountNumber,
+            receiver: "admin",
             amount: parseInt(amount),
             pin: pin,
             acType: userInfo?.data?.acType,
-            txType: "cashOut",
+            txType: "cashRequest",
         };
 
-        console.log("user info", sendInfo);
+        console.log("user info", requestInfo);
         try {
-            const res = await sendCashApi(sendInfo)
-            console.log(res);
-            if (res.success) {
-                toast.success(res.message);
-               
+            const { data } = await axiosPublic.post("/api/addAction", requestInfo)
+            if (data.success) {
+                toast.success(data.message);
+
                 setOpen(false);
             } else {
-                toast.error(res.response.data.message);
+                toast.error(data.response.data.message);
             }
-
         } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message);
+            console.error(error);
+            toast.error(error.response?.data?.message || "Something went wrong!");
         }
-        // setOpen(false);
+        refetchUserTrx();
         refetch();
+        refetchUserTrx();
     };
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Cash Out</DialogTitle>
-                    <DialogDescription>Withdraw money via agents with a 1.5% transaction fee</DialogDescription>
-                    
+                    <DialogTitle>Request Cash</DialogTitle>
+                    <DialogDescription>Request balance from the admin.</DialogDescription>
+                    <DialogDescription>Specify the amount you need.</DialogDescription>
+                    <DialogDescription>Agents receive 100,000 Taka upon approval</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="account-number" className="text-right">
-                            Agent No
-                        </Label>
-                        <Input
-                            id="account-number"
-                            value={accountNumber}
-                            onChange={(e) => setAccountNumber(e.target.value)}
-                            className="col-span-3"
-                            placeholder="Enter account number"
-                        />
-                    </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="amount" className="text-right">
                             Amount
@@ -110,8 +96,8 @@ const CashOutDialog = ({ open, setOpen }) => {
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button onClick={handleSendMoney} type="submit">
-                        Cash Out
+                    <Button onClick={handleCashRequest} type="submit">
+                        Request Cash
                     </Button>
                 </DialogFooter>
             </DialogContent>
@@ -119,4 +105,4 @@ const CashOutDialog = ({ open, setOpen }) => {
     );
 };
 
-export default CashOutDialog;
+export default CashRequestDialog;

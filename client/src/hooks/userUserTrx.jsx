@@ -6,17 +6,17 @@ const useUserTrx = () => {
     const { user } = useAuth();
     const axiosPublic = useAxiosPublic();
 
-    const { data, isLoading, error } = useQuery({
-        queryKey: ["userTrx", user?.number], 
+    const { data, refetch, isLoading, error, } = useQuery({
+        queryKey: ["userTrx", user?.number],
         queryFn: async () => {
-            if (!user?.number) return null; 
+            if (!user?.number) return null;
             const response = await axiosPublic.get(`/api/trx/${user.number}`);
             return response.data;
         },
-        enabled: !!user?.number, 
+        enabled: !!user?.number,
     });
 
-    return { data, isLoading, error };
+    return { data, refetch, isLoading, error, };
 };
 
 export default useUserTrx;

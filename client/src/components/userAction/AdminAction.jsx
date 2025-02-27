@@ -31,21 +31,21 @@ const AdminAction = () => {
                     <div className="relative bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-4">
-                                <div onClick={handleSendMoney} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg cursor-pointer">
-                                    <Send className="h-6 w-6 text-primary dark:text-white" />
+                                <div onClick={handleSendMoney} className="p-4  bg-gray-50 dark:bg-gray-700 rounded-lg cursor-pointer">
+                                    <Send className="h-6 w-6  text-primary dark:text-white" />
                                     <h3 className="mt-2 font-semibold dark:text-white">Cash In</h3>
                                 </div>
-                                <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <div className="p-4 cursor-pointer bg-gray-50 dark:bg-gray-700 rounded-lg">
                                     <CreditCard className="h-6 w-6 text-primary dark:text-white" />
                                     <h3 className="mt-2 font-semibold dark:text-white">Pay Bills</h3>
                                 </div>
                             </div>
                             <div className="space-y-4">
-                                <div onClick={handleCashOut} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <div onClick={handleCashOut} className="p-4 cursor-pointer bg-gray-50 dark:bg-gray-700 rounded-lg">
                                     <Wallet className="h-6 w-6 text-primary dark:text-white" />
                                     <h3 className="mt-2 font-semibold dark:text-white">B2B</h3>
                                 </div>
-                                <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <div className="p-4 bg-gray-50 cursor-pointer dark:bg-gray-700 rounded-lg">
                                     <CreditCard className="h-6 w-6 text-primary dark:text-white" />
                                     <h3 className="mt-2 font-semibold dark:text-white">Pay Bills</h3>
                                 </div>

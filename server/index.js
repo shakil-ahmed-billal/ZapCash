@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const connectDB = require("./config/DBconnect");
 const userRoutes = require("./routers/userRoutes");
 const infoRoutes = require("./routers/infoRoutes");
+const userStatsRoutes = require("./routers/userStatsRoutes");
 const transactionRoutes = require("./routers/transactionRoutes");
 const app = express();
 dotenv.config();
@@ -13,7 +14,11 @@ const port = process.env.PORT || 5000;
 // middleware connection
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://zap-cash.vercel.app"],
+    origin: [
+      "http://localhost:5173",
+      "https://zap-cash.vercel.app",
+      "https://zapcash-0.web.app",
+    ],
     credentials: true,
   })
 );
@@ -27,6 +32,7 @@ connectDB();
 app.use("/api/user", userRoutes);
 app.use("/api", infoRoutes);
 app.use("/api", transactionRoutes);
+app.use("/api", userStatsRoutes);
 
 // server start debug
 app.get("/", (req, res) => res.send("server  is running"));

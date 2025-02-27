@@ -1,4 +1,3 @@
-import Footer from '@/components/footer/Footer';
 import Header from '@/components/header/Header';
 import { Outlet } from 'react-router-dom';
 const MainPage = () => {
@@ -7,12 +6,9 @@ const MainPage = () => {
             <header>
                 <Header />
             </header>
-            <main className='min-h-[calc(100vh-80px)] '>
+            <main className='min-h-[calc(100vh-56px)] '>
                 <Outlet />
             </main>
-            <footer>
-                <Footer />
-            </footer>
         </div>
     )
 }

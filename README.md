@@ -1,68 +1,114 @@
-# ZapCash
+# ZapCash - Mobile Financial Service (MFS) Application
 
-ZapCash is a simple Mobile Financial Service (MFS) application inspired by popular platforms like bKash and Nagad. It provides essential features such as user authentication, sending money, cash-out, cash-in, and balance inquiries. The project is designed to deliver a user-friendly and secure web environment for managing financial transactions.
+## Overview
+ZapCash is a secure and user-friendly Mobile Financial Service (MFS) platform, inspired by leading services like bKash and Nagad. It enables seamless financial transactions, including user authentication, money transfers, cash-in, cash-out, and balance inquiries.
 
----
+## 🔑 Admin Credentials
+```
+Account Number: 5555
+PIN: 1234
+```
+
+## 🌍 Live Demo
+🔗 [ZapCash Live App](https://zapcash-0.web.app)
 
 ## Features
 
-- **User Authentication**: Secure login and registration system.
-- **Send Money**: Transfer funds to other users seamlessly.
-- **Cash-Out**: Withdraw money from your account.
-- **Cash-In**: Deposit money into your account.
-- **Balance Inquiry**: Check your account balance at any time.
-- **User-Friendly Interface**: Intuitive and responsive design for a smooth user experience.
+### 🔹 User Features
+- **User Registration**: Easy sign-up with personal details.
+- **Welcome Bonus**: New users receive 40 Taka upon registration.
+- **Send Money**: Transfer funds to other users with a 5 Taka fee for transactions exceeding 100 Taka.
+- **Cash-In**: Deposit money via agents with zero fees.
+- **Cash-Out**: Withdraw money via agents with a 1.5% transaction fee.
+- **Balance Inquiry**: Secure balance display, initially blurred for privacy.
 
----
+### 🔸 Agent Features
+- **Agent Registration**: Requires admin approval before activation.
+- **Initial Balance**: Agents receive 100,000 Taka upon approval.
+- **Balance Recharge Request**: Agents can request additional funds from the admin.
+- **Cash-Out Earnings**: Agents earn 1% commission on user cash-out transactions.
 
-## Technologies Used
+### 🔹 Admin Features
+- **User & Agent Management**: Approve or block users and agents.
+- **Fund Allocation**: Add money to agent accounts.
+- **Revenue Generation**:
+  - Earns 0.5% from each user cash-out transaction.
+  - Earns 5 Taka from every money operation.
+- **Transaction Monitoring**: Tracks all transactions and total money within the system.
 
-### Frontend (Client)
-- **React**: A JavaScript library for building user interfaces.
-- **Vite**: A fast build tool for modern web development.
-- **Tailwind CSS**: A utility-first CSS framework for styling.
-- **React Router DOM**: For handling routing in the application.
-- **Axios**: For making HTTP requests to the backend.
-- **Framer Motion**: For adding animations to the UI.
-- **React Hook Form**: For managing form inputs and validation.
-- **TanStack React Query**: For managing server state and data fetching.
+### 🔸 Transaction System
+- **Secure Login & Registration**: JWT-based authentication.
+- **Encrypted PIN Storage**: User PINs are securely hashed.
+- **Device-Specific Login**: Users and agents can log in from only one device at a time.
+- **Transaction ID Generation**: Unique transaction ID assigned to each operation.
+- **Notifications**: Users receive real-time alerts upon successful transactions.
 
-### Backend (Server)
-- **Express.js**: A Node.js framework for building the server.
-- **MongoDB**: A NoSQL database for storing application data.
-- **Mongoose**: An ODM (Object Data Modeling) library for MongoDB.
-- **Bcrypt**: For hashing and securing user passwords.
-- **CORS**: For enabling cross-origin resource sharing.
-- **Dotenv**: For managing environment variables.
-- **Morgan**: For logging HTTP requests.
+## 🚀 Tech Stack
 
----
+### Frontend
+- **React.js**
+- **Tailwind CSS**
+- **Vite**
+- **React Query**
+- **React Hook Form**
+- **Framer Motion**
+- **Radix UI**
 
-## Project Structure
+### Backend
+- **Node.js**
+- **Express.js**
+- **MongoDB**
+- **Mongoose**
 
-### Client
-The frontend is built using React and Vite. The main scripts include:
-- `dev`: Start the development server.
-- `build`: Build the project for production.
-- `lint`: Run ESLint to check for code issues.
-- `preview`: Preview the production build locally.
+### Security & Other Dependencies
+- **JWT Authentication**
+- **Bcrypt for PIN Encryption**
+- **Axios**
+- **Morgan**
+- **Cors**
+- **Dotenv**
 
-### Server
-The backend is built using Express.js and MongoDB. The main scripts include:
-- `dev`: Start the development server using nodemon for hot-reloading.
-- `test`: Placeholder for running tests (currently not implemented).
-
----
-
-## Installation
+## 📌 Installation & Setup
 
 ### Prerequisites
-- Node.js (v18 or higher)
-- MongoDB Atlas (or a local MongoDB instance)
-- Git (optional)
+Ensure you have **Node.js** and **MongoDB** installed on your system.
 
-### Steps
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-username/ZapCash.git
-   cd ZapCash
+### Backend Setup
+```sh
+cd server
+npm install
+npm run dev
+```
+
+### Frontend Setup
+```sh
+cd client
+npm install
+npm run dev
+```
+
+## ⚙️ Environment Variables
+Create a `.env` file in the root directory and include the following:
+```
+VITE_SERVER_URL=https://zapcash.vercel.app
+MONGO_URI=mongodb+srv:
+SECRET_KEY=
+```
+
+## 🔑 Admin Credentials
+```
+Account Number: 5555
+PIN: 1234
+```
+
+## 🔮 Future Enhancements
+- **Cash Request (Agent)**: Allow agents to request a balance recharge.
+- **Withdraw Request (Agent)**: Enable agents to request withdrawals.
+- **Admin Approval for Withdrawals**: Admin review and approval system for withdrawal requests.
+
+## 📜 License
+This project is licensed under the **MIT License**.
+
+## 📞 Contact
+For further inquiries, please reach out to the project team.
+
