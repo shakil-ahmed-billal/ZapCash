@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useAxiosPublic from "@/hooks/useAxiosPublic";
+import useUserTrx from "@/hooks/userUserTrx";
 import useUser from "@/hooks/useUser";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -20,9 +21,10 @@ const CashReqDialog = ({ open, setOpen, _id }) => {
 
     const axiosPublic = useAxiosPublic();
     const [pin, setPin] = useState("");
-    const {refetch: refetchUser} = useUser();
+    const { refetch: refetchUser } = useUser();
+    const { refetch: refetchUserTrx } = useUserTrx();
 
-    const { refetch , isLoading} = getCashReq({ search: "" })
+    const { refetch, isLoading } = getCashReq({ search: "" })
 
     const handleCashRequest = async () => {
 
@@ -36,7 +38,7 @@ const CashReqDialog = ({ open, setOpen, _id }) => {
             const { data } = await axiosPublic.post("/api/approveRequest", { transactionId: _id })
             if (data.success) {
                 toast.success(data.message);
-                refetchUser();
+
                 setOpen(false);
             } else {
                 toast.error(data.response.data.message);
@@ -46,6 +48,8 @@ const CashReqDialog = ({ open, setOpen, _id }) => {
             toast.error(error.response?.data?.message || "Something went wrong!");
         }
         refetch()
+        refetchUser();
+        refetchUserTrx();
     };
 
     return (
@@ -53,8 +57,8 @@ const CashReqDialog = ({ open, setOpen, _id }) => {
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Request Cash</DialogTitle>
-                    <DialogDescription>Request balance from the admin.</DialogDescription>
-                    <DialogDescription>Specify the amount you need.</DialogDescription>
+                    <DialogDescription>Agents receive 100,000 Taka upon approval</DialogDescription>
+                    
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">

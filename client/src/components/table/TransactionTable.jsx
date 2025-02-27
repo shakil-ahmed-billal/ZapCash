@@ -8,7 +8,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import userTrx from "@/hooks/userTrx";
+import userTrx from "@/hooks/userUserTrx";
 import useUser from "@/hooks/useUser";
 import UserTrxRow from "../tableRow/UserTrxRow";
 
@@ -18,7 +18,7 @@ const TransactionTable = () => {
 
 
     const { data } = userTrx()
-    const { data:info } = useUser()
+    const { data: info } = useUser()
 
 
     return (
@@ -32,12 +32,12 @@ const TransactionTable = () => {
                     <TableHead>Status</TableHead>
                     <TableHead>Trx Type</TableHead>
                     <TableHead>AC Type</TableHead>
-                    <TableHead>{info?.data?.acType === "agent" ? "Commission" : info?.data?.acType === "admin" ? "Commission" : "Charge" }</TableHead>
+                    <TableHead>{info?.data?.acType === "agent" ? "Commission" : info?.data?.acType === "admin" ? "Commission" : "Charge"}</TableHead>
                     <TableHead className="text-right">Amount</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {data?.data?.slice(0, 8).map((invoice) => <UserTrxRow invoice={invoice} key={invoice._id}/>)}
+                {data?.data?.slice(0, 8).map((invoice) => <UserTrxRow invoice={invoice} key={invoice._id} />)}
             </TableBody>
             <TableFooter>
                 <TableRow>

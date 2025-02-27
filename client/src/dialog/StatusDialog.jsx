@@ -49,7 +49,7 @@ const StatusDialog = ({ open, setOpen, number }) => {
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Please Account Verify First</DialogTitle>
+                    <DialogTitle>User Account Type Select</DialogTitle>
                     <DialogDescription />
                 </DialogHeader>
                 <div className="grid gap-4 py-4">

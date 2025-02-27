@@ -58,7 +58,7 @@ const addAction = async (req, res) => {
           .json({ success: false, message: "Insufficient balance" });
       }
 
-      // Create withdraw request transaction 
+      // Create withdraw request transaction
       const transaction = new Transaction({
         sender: senderUser.number,
         receiver: admin.number,
@@ -73,12 +73,15 @@ const addAction = async (req, res) => {
       await transaction.save();
       return res.status(200).json({
         success: true,
-        message: "Withdrawal request sent successfully. Waiting for admin approval.",
+        message:
+          "Withdrawal request sent successfully. Waiting for admin approval.",
         data: transaction,
       });
     }
 
-    return res.status(400).json({ success: false, message: "Invalid transaction type" });
+    return res
+      .status(400)
+      .json({ success: false, message: "Invalid transaction type" });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }
@@ -98,40 +101,57 @@ const approveRequest = async (req, res) => {
   try {
     const transaction = await Transaction.findById(transactionId);
     if (!transaction) {
-      return res.status(404).json({ success: false, message: "Transaction not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Transaction not found" });
     }
 
     const agentUser = await User.findOne({ number: transaction.sender });
     const admin = await User.findOne({ acType: "admin" });
 
     if (!agentUser || !admin) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
     if (transaction.status !== "pending") {
-      return res.status(400).json({ success: false, message: "Transaction already processed" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Transaction already processed" });
     }
-
     if (transaction.txType === "cashRequest") {
-      agentUser.balance += 100000; 
+      agentUser.balance += 100000;
     } else if (transaction.txType === "withdrawRequest") {
       if (agentUser.balance < transaction.amount) {
-        return res.status(400).json({ success: false, message: "Insufficient balance for withdrawal" });
+        return res
+          .status(400)
+          .json({
+            success: false,
+            message: "Insufficient balance for withdrawal",
+          });
       }
       agentUser.balance -= transaction.amount;
       admin.balance += transaction.amount;
     } else {
-      return res.status(400).json({ success: false, message: "Invalid transaction type" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid transaction type" });
     }
 
     transaction.status = "approved";
-    await agentUser.save();
     await admin.save();
     await transaction.save();
 
+    await agentUser.save();
+
     return res.status(200).json({
       success: true,
-      message: `${transaction.txType === "cashRequest" ? "Cash request" : "Withdrawal request"} approved successfully.`,
+      message: `${
+        transaction.txType === "cashRequest"
+          ? "Cash request"
+          : "Withdrawal request"
+      } approved successfully.`,
       data: transaction,
     });
   } catch (err) {

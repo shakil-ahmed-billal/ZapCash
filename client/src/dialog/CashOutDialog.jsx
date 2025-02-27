@@ -47,7 +47,7 @@ const CashOutDialog = ({ open, setOpen }) => {
             console.log(res);
             if (res.success) {
                 toast.success(res.message);
-                refetch();
+               
                 setOpen(false);
             } else {
                 toast.error(res.response.data.message);
@@ -58,6 +58,7 @@ const CashOutDialog = ({ open, setOpen }) => {
             toast.error(error.response.data.message);
         }
         // setOpen(false);
+        refetch();
     };
 
     return (
@@ -65,9 +66,8 @@ const CashOutDialog = ({ open, setOpen }) => {
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Cash Out</DialogTitle>
-                    <DialogDescription>5 taka per transaction for amounts over 100 taka.</DialogDescription>
-                    <DialogDescription>Phone number of the recipient.</DialogDescription>
-                    <DialogDescription>Specify the amount to send.</DialogDescription>
+                    <DialogDescription>Withdraw money via agents with a 1.5% transaction fee</DialogDescription>
+                    
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">

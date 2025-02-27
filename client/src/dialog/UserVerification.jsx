@@ -36,6 +36,7 @@ const UserVerification = ({ open, setOpen }) => {
             setOpen(false);
         }
         console.log(data);
+        refetch();
     };
 
     return (
@@ -43,6 +44,7 @@ const UserVerification = ({ open, setOpen }) => {
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Please Account Verify First</DialogTitle>
+                    <DialogTitle>New users receive 40 Taka upon registration</DialogTitle>
                     <DialogDescription />
                 </DialogHeader>
                 <div className="grid gap-4 py-4">

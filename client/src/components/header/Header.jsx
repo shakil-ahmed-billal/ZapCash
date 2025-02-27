@@ -47,11 +47,9 @@ const Header = () => {
                         <div className="flex flex-col space-y-4">
                             <Link to="/home" className="font-bold text-lg">Home</Link>
                             <Link to="/dashboard" className="font-bold text-lg">Dashboard</Link>
-                            <Link to="/contact" className="font-bold text-lg">Contact</Link>
                         </div>
                     </SheetContent>
                 </Sheet>
-
                 {/* Right-side actions */}
                 <div className="flex items-center space-x-2">
                     {/* Theme Toggle */}

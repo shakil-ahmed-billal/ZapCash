@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useAxiosPublic from "@/hooks/useAxiosPublic";
+import useUserTrx from "@/hooks/userUserTrx";
 import useUser from "@/hooks/useUser";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -20,7 +21,8 @@ const CashRequestDialog = ({ open, setOpen }) => {
     const axiosPublic = useAxiosPublic();
     const [amount, setAmount] = useState("");
     const [pin, setPin] = useState("");
-    const { data: userInfo , refetch } = useUser();
+    const { data: userInfo, refetch } = useUser();
+    const { refetch: refetchUserTrx } = useUserTrx();
 
     const handleCashRequest = async () => {
         if (!amount || !pin) {
@@ -29,20 +31,20 @@ const CashRequestDialog = ({ open, setOpen }) => {
         }
 
         const requestInfo = {
-            sender: userInfo?.data?.number, 
-            receiver: "admin", 
+            sender: userInfo?.data?.number,
+            receiver: "admin",
             amount: parseInt(amount),
             pin: pin,
             acType: userInfo?.data?.acType,
-            txType: "cashRequest", 
+            txType: "cashRequest",
         };
 
         console.log("user info", requestInfo);
         try {
-            const {data} = await axiosPublic.post("/api/addAction", requestInfo)
+            const { data } = await axiosPublic.post("/api/addAction", requestInfo)
             if (data.success) {
                 toast.success(data.message);
-                refetch();
+
                 setOpen(false);
             } else {
                 toast.error(data.response.data.message);
@@ -51,6 +53,9 @@ const CashRequestDialog = ({ open, setOpen }) => {
             console.error(error);
             toast.error(error.response?.data?.message || "Something went wrong!");
         }
+        refetchUserTrx();
+        refetch();
+        refetchUserTrx();
     };
 
     return (
@@ -60,6 +65,7 @@ const CashRequestDialog = ({ open, setOpen }) => {
                     <DialogTitle>Request Cash</DialogTitle>
                     <DialogDescription>Request balance from the admin.</DialogDescription>
                     <DialogDescription>Specify the amount you need.</DialogDescription>
+                    <DialogDescription>Agents receive 100,000 Taka upon approval</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">

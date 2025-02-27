@@ -8,7 +8,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import userTrx from "@/hooks/userTrx";
+import userTrx from "@/hooks/userUserTrx";
 
 
 
