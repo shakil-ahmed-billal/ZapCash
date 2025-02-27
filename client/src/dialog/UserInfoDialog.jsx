@@ -17,7 +17,7 @@ const UserInfoDialog = ({ open, setOpen, data }) => {
 
 
     const { name, email, number, nid, acType, acStatus , photoURL , balance} = data || {}
-
+    
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>

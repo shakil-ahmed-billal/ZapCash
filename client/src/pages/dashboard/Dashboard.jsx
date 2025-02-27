@@ -4,12 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import useUser from '@/hooks/useUser';
 import { cn } from "@/lib/utils";
-import {
-    CreditCard, Home, LineChart,
-    Menu,
-    Package, Settings,
-    ShoppingCart, Users
-} from 'lucide-react';
+import { Cable } from 'lucide-react';
+import { HandCoins } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
+import { WalletCards } from 'lucide-react';
+import { ArrowRightLeft, CreditCard, Home, LineChart, LogIn, LogOut, Menu, Settings, Users } from 'lucide-react';
 import { useState } from "react";
 import { Link, Outlet } from 'react-router-dom';
 
@@ -63,24 +62,21 @@ function Sidebar({ isOpen, toggleSidebar }) {
                     <h2 className="mb-2 px-4 text-lg font-semibold">Navigation</h2>
                     <div className="space-y-1">
                         {info?.data?.acType == "user" ? <>
-                            <Link to="/dashboard"><SidebarItem icon={<Home className="h-4 w-4" />} title="Dashboard" /></Link>
-                            <Link to="/home"><SidebarItem icon={<ShoppingCart className="h-4 w-4" />} title="Orders" /></Link>
-                            <Link to="/home"><SidebarItem icon={<Users className="h-4 w-4" />} title="Customers" /></Link>
-                            <Link to="/home"><SidebarItem icon={<Package className="h-4 w-4" />} title="Products" /></Link>
-                            <Link to="/home"><SidebarItem icon={<LineChart className="h-4 w-4" />} title="Analytics" /></Link>
+                            <Link to="/home"><SidebarItem icon={<Home className="h-4 w-4" />} title="Home" /></Link>
+                            <Link to="/dashboard"><SidebarItem icon={<LineChart className="h-4 w-4" />} title="Dashboard" /></Link>
+                            <Link to="/dashboard/user-trx"><SidebarItem icon={<ArrowRightLeft className="h-4 w-4" />} title="Transactions" /></Link>
                         </> : info?.data?.acType == "agent" ? <>
-                            <Link to="/dashboard"><SidebarItem icon={<Home className="h-4 w-4" />} title="Dashboard" /></Link>
-                            <Link to="/home"><SidebarItem icon={<ShoppingCart className="h-4 w-4" />} title="Orders" /></Link>
-                            <Link to="/home"><SidebarItem icon={<Users className="h-4 w-4" />} title="Customers" /></Link>
-                            <Link to="/home"><SidebarItem icon={<Package className="h-4 w-4" />} title="Products" /></Link>
-                            <Link to="/home"><SidebarItem icon={<LineChart className="h-4 w-4" />} title="Analytics" /></Link>
+                            <Link to="/home"><SidebarItem icon={<Home className="h-4 w-4" />} title="Home" /></Link>
+                            <Link to="/dashboard"><SidebarItem icon={<LineChart className="h-4 w-4" />} title="Dashboard" /></Link>
+                            <Link to="/dashboard/user-trx"><SidebarItem icon={<ArrowRightLeft className="h-4 w-4" />} title="Transactions" /></Link>
                         </> : <>
                             <Link to="/dashboard"><SidebarItem icon={<Home className="h-4 w-4" />} title="Dashboard" /></Link>
                             <Link to="/dashboard/user-manage"><SidebarItem icon={<Users className="h-4 w-4" />} title="Manage Users" /></Link>
-                            <Link to="/dashboard/agent-manage"><SidebarItem icon={<Users className="h-4 w-4" />} title="Agent Approval" /></Link>
-                            <Link to="/dashboard/transactions"><SidebarItem icon={<Users className="h-4 w-4" />} title="All Trx History" /></Link>
+                            <Link to="/dashboard/agent-manage"><SidebarItem icon={<ShieldCheck  className="h-4 w-4" />} title="Agent Approval" /></Link>
+                            <Link to="/dashboard/transactions"><SidebarItem icon={<Cable  className="h-4 w-4" />} title="All Trx History" /></Link>
+                            <Link to="/dashboard/cashRequest"><SidebarItem icon={<HandCoins className="h-4 w-4" />} title="Cash Request" /></Link>
+                            <Link to="/dashboard/withdraw"><SidebarItem icon={<WalletCards  className="h-4 w-4" />} title="withdraw Cash" /></Link>
                         </>}
-
                     </div>
                 </div>
                 <div className="px-3 py-2">
@@ -88,6 +84,8 @@ function Sidebar({ isOpen, toggleSidebar }) {
                     <div className="space-y-1">
                         <Link to="/home"><SidebarItem icon={<Settings className="h-4 w-4" />} title="General" /></Link>
                         <Link to="/home"><SidebarItem icon={<CreditCard className="h-4 w-4" />} title="Billing" /></Link>
+                        <Link to="/home"><SidebarItem icon={<LogIn className="h-4 w-4" />} title="Login" /></Link>
+                        <Link to="/home"><SidebarItem icon={<LogOut className="h-4 w-4" />} title="Logout" /></Link>
                     </div>
                 </div>
             </div>

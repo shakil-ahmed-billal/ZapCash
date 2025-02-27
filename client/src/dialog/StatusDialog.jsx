@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import useAllUser from "@/hooks/useAllUser";
 import useAxiosPublic from "@/hooks/useAxiosPublic";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -20,18 +21,28 @@ const StatusDialog = ({ open, setOpen, number }) => {
     const axiosPublic = useAxiosPublic();
 
 
+    const { refetch } = useAllUser({ search: "", order: "", type: "", status: "" });
 
     const handleUpdate = async () => {
 
         console.log(status);
 
-        const { data } = await axiosPublic(`/api/user/update/?number=${number}&acStatus=${status}`);
-        console.log(data);
-        if (data.success) {
-            toast.success(data.message);
-            setOpen(false);
+        try {
+            const { data } = await axiosPublic(`/api/user/update/?number=${number}&acStatus=${status}`);
+            console.log(data);
+            if (data.success) {
+                toast.success(data.message);
+
+                refetch();
+                setOpen(false);
+            } else {
+                toast.error(data.response.data.message);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
         }
-        console.log(data);
+        refetch();
     };
 
     return (

@@ -8,6 +8,8 @@ import UserVerification from '@/dialog/UserVerification';
 import useAuth from '@/hooks/useAuth';
 import useUser from '@/hooks/useUser';
 import { motion } from 'framer-motion';
+import { EyeOff } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import { BadgeX, Verified } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -34,8 +36,7 @@ const Home = () => {
 
 
     // user action dialog
-
-
+    const [blcShow , setBlcShow] = useState(true)
 
 
     return (
@@ -52,10 +53,12 @@ const Home = () => {
                                 <div className="">
                                     <p>Name : {info?.data?.name}</p>
                                     <CardTitle>Total Balance</CardTitle>
-                                    <p className="text-2xl font-semibold dark:text-white">${parseFloat(info?.data?.balance).toFixed(2)}</p>
+                                    <p className="text-2xl font-semibold dark:text-white flex items-center gap-2">${blcShow?parseFloat(info?.data?.balance).toFixed(2) : "********"} {
+                                        blcShow ? <Eye className='cursor-pointer' onClick={() => setBlcShow(false)} /> : <EyeOff className='cursor-pointer' onClick={() => setBlcShow(true)} />
+                                    }</p>
                                     <p className="text-sm text-gray-500 dark:text-gray-400">Last updated 3 mins ago</p>
                                     <p className='font-semibold dark:text-white'>Account Type: {info?.data?.acType}</p>
-                                    <p className='font-semibold dark:text-white flex items-center gap-2'>Account Status: {info?.data?.acStatus == "unverified" ? <BadgeX className='text-red-500' /> : info?.data?.acStatus == "pending" ? <Verified className='text-yellow-500' /> : <Verified className='text-green-400' />}</p>
+                                    <p className='font-semibold dark:text-white flex items-center gap-2'>Account Status: {info?.data?.acStatus === "verified" ? <>Verify <Verified className='text-green-400' /></> : info?.data?.acStatus == "pending" ? <>Pending <Verified className='text-yellow-500' /></> : info?.data?.acStatus == "unverified" ? <>Unverified <BadgeX className='text-red-500' /></>:<>suspended<BadgeX className='text-red-500' /></>}</p>
                                 </div>
                             </div>
                             <div className="">

@@ -32,8 +32,8 @@ const UserVerification = ({ open, setOpen }) => {
         const { data } = await axiosPublic.put(`/api/user/verify`, { nid: userNid, acType: type, email: user?.email });
         if (data.success) {
             toast.success(data.message);
-            setOpen(false);
             refetch();
+            setOpen(false);
         }
         console.log(data);
     };

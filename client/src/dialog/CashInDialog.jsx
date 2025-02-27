@@ -20,7 +20,7 @@ const CashInDialog = ({ open, setOpen }) => {
     const [accountNumber, setAccountNumber] = useState("");
     const [amount, setAmount] = useState("");
     const [pin, setPin] = useState("");
-    const { data: userInfo } = useUser()
+    const { data: userInfo , refetch } = useUser()
 
     console.log(userInfo);
 
@@ -47,7 +47,8 @@ const CashInDialog = ({ open, setOpen }) => {
             console.log(res);
             if (res.success) {
                 toast.success(res.message);
-                // setOpen(false);
+                refetch();
+                setOpen(false);
             } else {
                 toast.error(res.response.data.message);
             }
@@ -56,7 +57,7 @@ const CashInDialog = ({ open, setOpen }) => {
             console.log(error);
             toast.error(error.response.data.message);
         }
-        // setOpen(false);
+        setOpen(false);
     };
 
     return (

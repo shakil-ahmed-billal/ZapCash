@@ -1,8 +1,7 @@
-import StatusDialog from "@/dialog/StatusDialog";
+import UserInfoDialog from "@/dialog/UserInfoDialog";
 import useAxiosPublic from "@/hooks/useAxiosPublic";
 import { useState } from "react";
 import { TableCell, TableRow } from "../ui/table";
-import UserInfoDialog from "@/dialog/UserInfoDialog";
 
 const TrxTableRow = ({ invoice }) => {
 
@@ -12,13 +11,13 @@ const TrxTableRow = ({ invoice }) => {
 
     const handleClick = async (number) => {
         try {
-            const {data} = await axiosPublic(`/api/info?email=dfg&number=${number}`);
+            const { data } = await axiosPublic(`/api/info?email=dfg&number=${number}`);
             console.log(data);
             if (data.success) {
                 console.log(data);
                 setUserData(data.data);
 
-                if(userData){
+                if (userData) {
                     setOpen(true);
                 }
             }
@@ -27,11 +26,11 @@ const TrxTableRow = ({ invoice }) => {
         }
     };
 
-    
+
 
     return (
         <>
-            <TableRow onClick={()=>handleClick(invoice?.sender)} key={invoice?._id}>
+            <TableRow onClick={() => handleClick(invoice?.sender)} key={invoice?._id}>
                 <TableCell className="font-medium">{invoice?._id.slice(0, 1)}</TableCell>
                 <TableCell>{invoice?.status}</TableCell>
                 <TableCell>{invoice?.sender}</TableCell>
@@ -40,7 +39,7 @@ const TrxTableRow = ({ invoice }) => {
                 <TableCell>{invoice?.charge}</TableCell>
                 <TableCell className="text-right">{invoice?.amount}</TableCell>
             </TableRow>
-            <UserInfoDialog data={userData}  number={invoice?.number} open={open} setOpen={setOpen} />
+            <UserInfoDialog data={userData} number={invoice?.number} open={open} setOpen={setOpen} />
         </>
     )
 }

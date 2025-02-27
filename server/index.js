@@ -13,7 +13,11 @@ const port = process.env.PORT || 5000;
 // middleware connection
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://zap-cash.vercel.app"],
+    origin: [
+      "http://localhost:5173",
+      "https://zap-cash.vercel.app",
+      "https://zapcash-0.web.app",
+    ],
     credentials: true,
   })
 );
