@@ -32,7 +32,7 @@ const Header = () => {
                     <nav className="hidden md:flex space-x-4">
                         <Link to="/home" className="hover:text-primary">Home</Link>
                         <Link to="/dashboard" className="hover:text-primary">Dashboard</Link>
-                        <Link to="/contact" className="hover:text-primary">Contact</Link>
+                   
                     </nav>
                 </div>
 
